@@ -14,13 +14,15 @@ namespace CodeChallenge
     {
         static void Main(string[] args)
         {
+            //possible deliminators
+            char[] delimiterChars = { ',', '\n' };
 
-                //Ask user for numbers
-                Console.WriteLine("What numbers would you like to add together? Please seperate the numbers by a comma.");
+            //Ask user for numbers
+            Console.WriteLine("What numbers would you like to add together? Please seperate the numbers by a comma.");
                 var line = Console.ReadLine();
 
-                //split the numbers
-                var data = line.Split(',');
+            //split the numbers by the delimiters by commas or newline character 
+            var data = line.Split(new string[] { ",","\\n" }, StringSplitOptions.None);
 
             int iCount = 0;
             //Create an empty arraylist
