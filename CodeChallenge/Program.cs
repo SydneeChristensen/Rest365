@@ -27,51 +27,78 @@ namespace CodeChallenge
             int iCount = 0;
             //Create an empty arraylist
             ArrayList numbers = new ArrayList();
+            //Create an empty arraylist for negative numbers
+            ArrayList negatives = new ArrayList();
+
             //foreach loop to take out any empty inputs or replace letters with zeros
             foreach (string item in data)
                 {
+                //fills in any empty variable with a zero
                 if (item == "")
                 {
                     numbers.Add(0);
                 }
 
+                //turns any input into an interger
                 else if (Int32.TryParse(data[iCount], out _))
                 {
+                    
                     numbers.Add(int.Parse(data[iCount]));
+                    //create a variable to check if the int is negative
+                    int num = int.Parse(data[iCount]);
+
+                    //if statement to check if the number is negative
+                    if (num<0)
+                    {
+                        //adds the negative value to an arraylist to later display 
+                        negatives.Add(num);
+                    }
                 }
+
+                //if the value can't be converted to an interger it gets turned into a zero
                 else
                 {
                     numbers.Add(0);
-
                 }
-
                 iCount++;
             }
 
-            iCount = 0;
-            int total = 0;
-            //Combine the values for a total
-            foreach(int item in numbers)
+            //the exception that is ouput if the user inputs negative numbers
+            if (negatives.Count > 0)
+            {
+                Console.Write("This application does not allow negative numbers. You input the following negative numbers: ");
+                foreach (int neg in negatives)
+                {
+                    Console.Write(neg);
+                }
+                Console.ReadLine();
+            }
+            else
+            {
+                iCount = 0;
+                int total = 0;
+                //Combine the values for a total
+                foreach (int item in numbers)
+                {
+                    total = item + total;
+                }
+                iCount = 0;
+                int plusSigns = 1;
+                //loop to print out the numbers and the total
+                foreach (int item in numbers)
+                {
+                    Console.Write(numbers[iCount].ToString());
+                    iCount++;
+                    if (plusSigns < numbers.Count)
                     {
-                        total = item + total;
-                    }
-                    iCount = 0;
-                    int plusSigns = 1;
-                    //loop to print out the numbers and the total
-                    foreach (int item in numbers)
-                    {
-                        Console.Write(numbers[iCount].ToString());
-                        iCount++;
-                      if (plusSigns < numbers.Count)
-                         {
-                            Console.Write(" + ");
-                            plusSigns++;
-                        };
-                                 
-                    }
-            Console.Write(" = " + total);
-            Console.ReadLine();
+                        Console.Write(" + ");
+                        plusSigns++;
+                    };
 
+                }
+                Console.Write(" = " + total);
+                Console.ReadLine();
+            }
         }
 
     }
