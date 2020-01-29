@@ -42,10 +42,17 @@ namespace CodeChallenge
                 //turns any input into an interger
                 else if (Int32.TryParse(data[iCount], out _))
                 {
-                    
-                    numbers.Add(int.Parse(data[iCount]));
                     //create a variable to check if the int is negative
                     int num = int.Parse(data[iCount]);
+
+                    if (num > 1000)
+                    {
+                        numbers.Add(0);
+                    }
+                    else
+                    {
+                        numbers.Add(int.Parse(data[iCount]));
+                    }
 
                     //if statement to check if the number is negative
                     if (num<0)
@@ -53,6 +60,7 @@ namespace CodeChallenge
                         //adds the negative value to an arraylist to later display 
                         negatives.Add(num);
                     }
+
                 }
 
                 //if the value can't be converted to an interger it gets turned into a zero
@@ -73,6 +81,7 @@ namespace CodeChallenge
                 }
                 Console.ReadLine();
             }
+
             else
             {
                 iCount = 0;
