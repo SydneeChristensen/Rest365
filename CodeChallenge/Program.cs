@@ -14,15 +14,24 @@ namespace CodeChallenge
     {
         static void Main(string[] args)
         {
-            //possible deliminators
-            char[] delimiterChars = { ',', '\n' };
 
             //Ask user for numbers
-            Console.WriteLine("What numbers would you like to add together? Please seperate the numbers by a comma.");
-                var line = Console.ReadLine();
+            Console.WriteLine("What numbers would you like to add together?");
+            var line = Console.ReadLine();
 
-            //split the numbers by the delimiters by commas or newline character 
-            var data = line.Split(new string[] { ",","\\n" }, StringSplitOptions.None);
+            //variable to store the custome delimiters
+            string delimiter = null;
+
+            //if statement to see if we are working with the custom delimiters
+            if (line.StartsWith("//"))
+            {
+                //finds the custom delimiter
+                var dels = line.Split(new string[] { "//[", "]\\n", "//", "\\n" }, StringSplitOptions.None);
+                delimiter = dels[1];
+            }
+
+            //split the numbers by the delimiters by commas, newline character, or custom delimiter
+            var data = line.Split(new string[] { ",", "\\n", delimiter }, StringSplitOptions.None);
 
             int iCount = 0;
             //Create an empty arraylist
@@ -61,6 +70,12 @@ namespace CodeChallenge
                         negatives.Add(num);
                     }
 
+                }
+
+                //clean up after the custom delimiters
+                else if (data[iCount] == "//"  || data[iCount] == "//[" || data[iCount] == "]")  
+                {
+                    data[iCount] = "0";
                 }
 
                 //if the value can't be converted to an interger it gets turned into a zero
