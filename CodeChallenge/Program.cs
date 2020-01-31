@@ -7,10 +7,22 @@ using System.Threading.Tasks;
 
 namespace CodeChallenge
 {
-    //created by: Sydnee Christensen
-    //January 2020
+    /*  created by: Sydnee Christensen
+        January 2020
+        Requirements: 
+        1. Support a maximum of 2 numbers using a comma delimiter. Throw an exception when more than 2 numbers are provided
+        2.Empty input or missing numbers should be converted to 0
+        3. Invalid numbers should be converted to 0 e.g. 5,tytyt will return 5
+        4. Remove the maximum constraint for numbers e.g. 1,2,3,4,5,6,7,8,9,10,11,12 
+        5. Deny negative numbers by throwing an exception that includes all of the negative numbers provided
+        6. Make any value greater than 1000 an invalid number e.g. 2,1001,6 will return 8
+        7. Support 1 custom delimiter of a single character using the format: //{delimiter}\n{numbers}
+        8. Support 1 custom delimiter of any length using the format: //[{delimiter}]\n{numbers}
+        9. Support multiple delimiters of any length using the format: //[{delimiter1}][{delimiter2}]...\n{numbers}
+        10. All previous formats should also be supported
+   */
 
-    class Program
+   public class Program
     {
         static void Main(string[] args)
         {
@@ -19,19 +31,43 @@ namespace CodeChallenge
             Console.WriteLine("What numbers would you like to add together?");
             var line = Console.ReadLine();
 
-            //variable to store the custome delimiters
-            string delimiter = null;
+            List<string> delLists = new List<string>();
 
             //if statement to see if we are working with the custom delimiters
             if (line.StartsWith("//"))
             {
                 //finds the custom delimiter
-                var dels = line.Split(new string[] { "//[", "]\\n", "//", "\\n" }, StringSplitOptions.None);
-                delimiter = dels[1];
+                var dels = line.Split(new string[] { "//[", "[", "][","//", "]" , "\\"}, StringSplitOptions.None);
+                
+                //sorts out the delimiter according to the formats            
+                int iNum = 0;
+                foreach (string item in dels)
+                {
+                    if (item.StartsWith("n"))
+                    {
+                        continue;
+                    }
+
+                    else
+                    {
+                        delLists.Add(dels[iNum]);
+                    }
+                    iNum++;
+                }
+                line = line.Substring(line.IndexOf("n") + 1);
             }
+            //adds the comma and newline delimiters
+            delLists.Add(",");
+            delLists.Add("\\n");
+            delLists.Add("]\\n");
+            
+            //changes the list to an array
+            string[] delimiters = delLists.ToArray();
+            //cuts the string down to just the inputs split by the delimiters
+            
 
             //split the numbers by the delimiters by commas, newline character, or custom delimiter
-            var data = line.Split(new string[] { ",", "\\n", delimiter }, StringSplitOptions.None);
+            string[] data = line.Split(delimiters, StringSplitOptions.None);
 
             int iCount = 0;
             //Create an empty arraylist
@@ -73,7 +109,7 @@ namespace CodeChallenge
                 }
 
                 //clean up after the custom delimiters
-                else if (data[iCount] == "//"  || data[iCount] == "//[" || data[iCount] == "]")  
+                else if (data[iCount] == "//"  || data[iCount] == "//[" || data[iCount] == "]" || data[iCount] == "][")  
                 {
                     data[iCount] = "0";
                 }
